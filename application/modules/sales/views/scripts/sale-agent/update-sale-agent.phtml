@@ -1,0 +1,132 @@
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+$url_save=$this->url(array("module"=>"sales","controller"=>"sale-agent","action"=>"update-sale-agent"));
+?>
+<title><?php echo $tr->translate("UPDATE_SALE_AGENT"); ?></title>
+<div class="wrapper">
+		<div class="view-table">
+			<div class="head_form">
+				<?php echo $tr->translate("MENU_SALES_SALE_AGENT_ADD_SALE_AGENT");?>
+			</div>
+				<div class="contain_form shadow">
+					<?php $frm_agent = $this->form_agent; ?>
+					<form id="frm" method="post" action="<?php echo $url_save;?>">
+					 	<table style="margin: 0 auto; background:#fff;">
+					 		<tr class="height">
+					 			<td><?php echo $tr->translate("AGENT_NAME");?></td>
+					 			<td width="30%"><?php echo $frm_agent->getElement("name");?></td>
+					 			<td><?php echo $tr->translate("CON_NUM");?></td>
+					 			<td width="30%"><?php echo $frm_agent->getElement("phone");?></td>
+					 		</tr>
+					 		<tr class="height">
+					 			<td><?php echo $tr->translate("EMAIL_ADD");?></td>
+					 			<td><?php echo $frm_agent->getElement("email");?></td>
+					 			<td><?php echo $tr->translate("CURRENT_ADD");?></td>
+					 			<td><?php echo $frm_agent->getElement("address");?><?php echo $frm_agent->getElement("id");?></td>
+					 		</tr>
+					 		<tr class="height">
+					 			<td><?php echo $tr->translate("POSTION");?></td>
+					 			<td><?php echo $frm_agent->getElement("job_title");?></td>
+					 			<td><?php echo $tr->translate("LOCATION_NAME");?></td>
+					 			<td><?php echo $frm_agent->getElement("main_stock_id");?></td>
+					 		</tr>
+					 		<tr class="height">
+					 			<td></td>
+					 			<td></td>
+					 			<td><?php echo $tr->translate("DESC");?></td>
+					 			<td><?php echo $frm_agent->getElement("description");?></td>
+					 		</tr>
+					 		<tr class="height">
+					 			<td></td>
+					 			<td><input class="btn_submit" type="submit" name="submit_update" value="<?php echo $tr->translate("UPDATE");?>" />
+					 			    <input class="btn_submit" Onclick="Cancel()"  type="button" name="submit_cancel" value="<?php echo $tr->translate("CANCEL");?>" />
+					 			</td>
+					 			<td></td>
+					 			<td></td>
+					 		</tr>
+					 		<tr height="30px">
+					 			<td colspan="6"></td>
+					 		</tr>
+					 	</table>
+					</form>	
+			   </div>
+		</div>
+</div>
+<!-- end new Location -->
+<div id="overlay-location" class="web_dialog_overlay"></div>
+		<?php $form_stock = $this->form_addstock; ?>
+		<div id="dialog-location" class="web_dialog">
+		<form id="frm-location">
+			<div class="web_dialog_title" align="center"><?php echo $tr->translate("ADD_NEW_LOCATION");?>
+				<a href="#" id="btnCloseLocation" class="cancelDailog"></a>
+			</div>
+			<table style="width: 100%; margin:0 auto;" cellpadding="3" cellspacing="0">
+				
+				<tr>
+					<td><?php echo $tr->translate("LOCATION_NAME");?></td>
+					<td><?php echo $form_stock->getElement("StockName");?></td>
+					<td><?php echo $tr->translate("CON_NAME");?></td>
+					<td><?php echo $form_stock->getElement("ContactName");?></td>
+				</tr>
+				<tr>
+					<td><?php echo $tr->translate("CON_NUM");?></td>
+					<td><?php echo $form_stock->getElement("ContactNumber");?></td>
+					<td><?php echo $tr->translate("STOCK_ADD");?></td>
+					<td><?php echo $form_stock->getElement("location_add");?></td>
+				</tr>
+				<tr>
+					<td colspan="2"></td>
+					<td><?php echo $tr->translate("DESC");?></td>
+					<td><?php echo $form_stock->getElement("description");?></td>
+				</tr>
+				<tr>
+					<td colspan="2" style="text-align: center;">
+						<input id="btn_add" Onclick="addNewLocation()" type="button" value="<?php echo $tr->translate("ADD_NEW");?>" />
+						<input id="btncancel_location" class="cancelDailog" type="button" value="<?php echo $tr->translate("CANCEL");?>" />
+					</td>
+					<td colspan="2"></td>
+				</tr>
+	       </table>
+	     </form>
+ </div>
+<script>
+function AddLocation(){
+	var location_id= $("#main_stock_id").val();
+	if(location_id==-1){
+		     AddNewLocation(true);
+			 e.preventDefault();
+	  }	
+}
+<?php $url_add_location =  $this->url(array('module'=>'product','controller'=>'index','action'=>'add-new-location')); ?>
+function addNewLocation(){
+	var location_name = $("#StockName").val();
+	var ContactName   = $("#ContactName").val();
+	var ContactNumber = $("#ContactNumber").val();
+	var location_add  = $("#location_add").val();
+	var remark_add    = $("#description").val();
+	validate_text('#StockName');
+	$.ajax({
+        url: "<?php echo $url_add_location;?>",
+        type: "post",
+        data: {'location_name':location_name,'ContactName':ContactName,'ContactNumber':ContactNumber,'location_add':location_add,'remark_add':remark_add},
+        success: function(data){
+           val = $.parseJSON(data);
+           $('#main_stock_id').append($("<option></option>").attr("value",data).attr("selected",true).text(location_name)); 
+           $('#main_stock_id').next().val(location_name);
+           document.getElementById("frm-location").reset();
+            HideDialoglocation();
+        },
+        error:function(){
+            alert("faile insert");
+            $("#result").html('There is error while submit');
+        }
+    });
+ 
+}
+function Cancel(){
+	var comfir= confirm("តើអ្នកពិតជាចង់ចាកចេញរឺ? ");
+	if(comfir==true){
+			window.open("<?php echo BASE_URL;?>/sales/sale-agent","_parent");
+	}	
+}
+</script>

@@ -1,0 +1,78 @@
+<?php 
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$form=$this->form;
+	$url_submit =  $this->url(array('module'=>'setting','controller'=>'index','action'=>'si'));
+	$url_cancel =  $this->url(array('module'=>'setting','controller'=>'index','action'=>'index'));
+?>
+<title><?php echo $tr->translate("INVENTORY STOCK INFO");?></title>
+<div class="wrapper">    
+    <div class="right">
+    	<form id="orderFrm" action="<?php echo $url_submit; ?>" method="post" enctype="multipart/form-data">
+		<div class="style-form">
+			<div class="view-table" style="padding:20px;">
+				<div class="head_form">
+					<?php echo $tr->translate("INVENTORY_STOCK ");?>
+				</div>
+			   	<div class="contain_form">
+			   		<table style="width:70%;margin:0 auto;">
+				                <tr>
+				                   
+				                    <td width="15%"><?php echo $tr->translate("FILE");?></td>
+				                    <td><?php echo $form->getElement("file");?></td>
+				                    <td></td>
+				                    <td></td>
+				                    
+				                </tr>
+				                <tr>
+				                	<td><?php echo $tr->translate("STOCK_NAME");?></td>
+				                    <td><?php echo $form->getElement('stock_name'); ?></td> 
+				                    <td></td>
+				                    <td></td>    
+				                </tr>
+				               <tr>
+				                	<td><?php echo $tr->translate("ADDRESS");?></td>
+				                    <td><?php echo $form->getElement('address'); ?></td> 
+				                    <td></td>
+				                    <td></td>    
+				                </tr>
+				                
+				                <tr>
+				                	<td><?php echo $tr->translate("CITY");?></td>
+				                    <td><?php echo $form->getElement('city'); ?></td> 
+				                    <td></td>
+				                    <td></td>    
+				                </tr>
+				                 <tr>
+				                	<td><?php echo $tr->translate("COUNTRY");?></td>
+				                    <td><?php echo $form->getElement('country'); ?></td> 
+				                    <td></td>
+				                    <td></td>    
+				                </tr>
+				               	<tr>
+				                	<td><?php echo $tr->translate("PHONE");?></td>
+				                    <td><?php echo $form->getElement('phone'); ?></td> 
+				                    <td></td>
+				                    <td></td>    
+				                </tr>
+				                <tr>
+				                	<td><?php echo $tr->translate("FAX");?></td>
+				                    <td><?php echo $form->getElement('fax'); ?></td> 
+				                    <td></td>
+				                    <td></td>    
+				                </tr>
+				                <tr>
+				                	<td><?php echo $tr->translate("WEBSITE");?></td>
+				                    <td><?php echo $form->getElement('website'); ?></td> 
+				                    <td></td>
+				                    <td></td>    
+				                </tr>
+				            </table>
+			   	</div><!-- end of .contain_table -->
+				        
+			</div>
+		</div>   
+				
+    	</form>
+    </div><!-- end right -->
+</div><!-- end wrapper -->
+ 

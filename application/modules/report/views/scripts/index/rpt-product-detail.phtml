@@ -1,0 +1,460 @@
+<?php 
+$frm_sales_report = $this->form_salse;
+$tr=Application_Form_FrmLanguages::getCurrentlanguage();
+$url_print=$this->url(array('module'=>'report','controller'=>'index','action'=>'print-report'));
+define("COM_ADD","<h3>RSMK GROUP CO.,LTD</h3>No.  BA7,  Sangkat Kakab,  Khan Dongkon,  Phnom Penh.<br>
+		Tel: (855) 23 956 789, (855) 23-222-266 <br>
+		Website : www.rsmkgroup.com ");
+define("HEADER","INVOICE");
+defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
+
+$brach_name =  $this->branch;
+?>
+
+<script language="javascript">
+function Clickheretoprint()
+{ 
+  var disp_setting="toolbar=yes,location=no,directories=yes,menubar=yes,"; 
+      disp_setting+="scrollbars=yes,width=1100, height=300, left=100, top=25"; 
+  var content_vlue = document.getElementById("print_content").innerHTML; 
+  
+  var docprint=window.open("","",disp_setting); 
+   docprint.document.open(); 
+   docprint.document.write('<html><head><title>Stock inventory System</title>'); 
+   docprint.document.write('</head><body onLoad="self.print()" style="margin:0px; font-size:8px !important;"><center>');     
+   docprint.document.write(content_vlue);
+   docprint.document.write('</center></body></html>'); 
+   docprint.document.close(); 
+   docprint.focus(); 
+}
+</script>
+<style type="text/css">
+	#print_content{ font-size:8px;}
+	.print_content{ font-size:8px;}
+</style>
+<title><?php echo $tr->translate("MENU_REPORT_INDEX_RPT_PRODUCT_DETAIL");?></title>
+<div class="right">
+	<div class="wrapper">
+	<div class="contorl-cus">
+        	<?php  $frmctrol=$this->control ;?>
+        	<?php //echo $frmctrol->getElement('New');?>
+        	<a href="javascript:Clickheretoprint()" class=""><?php echo $tr->translate("PRINT_REPORT");?></a>
+        </div>
+		<div class="view-table shadow">
+			<form id="frm" method="post" onsubmit="return getProductFilter();">
+			<br /><br />
+				<table class="height" width="100%">
+					<tr class="height">
+						<td><?php echo $tr->translate("LOCATION_NAME");?></td>
+						<td><?php echo $frm_sales_report->getElement("LocationId");?></td>
+						<td><?php echo $tr->translate("START_DATE");?></td>
+						<td  width="30%"><?php echo $frm_sales_report->getElement("start_date");?></td>
+						
+					</tr>
+					<tr class="height">
+						<td><?php echo $tr->translate("BRANCH_NAME");?></td>
+						<td><?php echo $frm_sales_report->getElement('branch_id');?></td>
+						<td><?php echo $tr->translate("END_DATE");?></td>
+						<td  width="30%"><?php echo $frm_sales_report->getElement("end_date");?></td>
+						
+					</tr>
+					<tr class="height">
+						<td><?php echo $tr->translate("SELECT_CATE");?></td>
+						<td width="30%"><?php echo $frm_sales_report->getElement('category_id');?></td>
+						<td><?php echo $tr->translate("REPORT");?></td>
+						<td width="40%"><?php echo $frm_sales_report->getElement("report_type");?></td>
+					</tr>
+					<tr class="height">
+						<td><?php echo $tr->translate("ITEM");?></td>
+						<td><?php echo $frm_sales_report->getElement("item");?>
+							
+						</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr class="height">
+						<td></td>
+						<td></td>
+						<td></td>
+						<td><div id="report"><fieldset><legend>Select Report that you want to show</legend><?php echo $frm_sales_report->getElement("report_num");?></fieldset></div></td>
+					</tr>
+					<tr class="height">
+						<td></td><!-- <a href="javascript:Clickheretoprint()"> Click To test Print</a> -->
+						<td></td>
+						<td></td>
+						<td><input type="submit" value="<?php echo $tr->translate("SEARCH")?>" class="ui-button ui-widget ui-state-default ui-corner-all ui-state-hover" onClick="getProductFilter()"  name="btn_search" name="btn_search" /></td>
+					</tr>
+				</table>
+			</form>
+			<input type="button" value="" class="print" onClick="Clickheretoprint()" style="float: right; margin-right:22px;"/>
+			<!-- <input type="button" value="" class="print" onClick="window.open('<?php echo $url_print;?>','mywindow','width=600,height=300,scrollbars=yes')">-->
+			
+			<div id="print_content" class="print_content">
+			<?php $get_purchase_item = $this->get_purchase_item;
+			if($get_purchase_item!=""):
+			?>
+				<div style="background:rgb(237, 247, 248); padding:10px 0px 15px 0px; ">
+					<table cellspacing="0" class="" border="1" width="96%" style="margin:30px 2%; font-size:12px;">
+						<thead style="font-size:14px;">
+							<tr style="background:#fff; padding:10px 5px; height:120px;">
+								<td colspan="10" style="padding-left:5px;"><br />
+									<div align="center"><h2><?php echo $tr->translate("REPORT_PURCHASE_ORDER");?></h2></div>
+									<?php echo COM_ADD; ?><!-- <img src="<?php //echo BASE_URL;?>/images/logo.png" /> -->
+										<div style="float:right;padding-right:5px;">
+										<?php if(!empty($brach_name))
+										 	echo "<b>Branch Name : </b>".$brach_name["Name"];
+										else{
+											echo "<b>Branch Name : </b> All Branch ";
+										}?>
+									</div>
+									
+									&nbsp;&nbsp;
+									<div style="clear:both;float: right; font-size:14px;"><?php echo $tr->translate("REPORT_ON_DATE")."៖";?><?php echo"  ". $this->start_date." To ".$this->end_date;?></div>
+								</td>
+									
+						   </tr>
+					   </thead>
+							<tr height="30" class="height" style="background:#E4E4E4;">
+								<th>&nbsp;<?php echo $tr->translate("NUM");?></th>
+								<th><?php echo $tr->translate("PURCHASE_NO");?></th>
+								<th>&nbsp;<?php echo $tr->translate("ITEM_NAME");?></th>
+								<th>&nbsp;<?php echo $tr->translate("ITEM_CODE");?></th>
+								<th width="10%">&nbsp;<?php echo $tr->translate("DATE_ORDER");?></th>
+								<!-- <th><?php //echo $tr->translate("BRANCH_NAME");?></th>
+								<th><?php //echo $tr->translate("CATEGORY");?></th> -->
+								<th>&nbsp;<?php echo $tr->translate("QTY_PO");?></th>
+								<th width="12%">&nbsp;<?php echo $tr->translate("LOCATION");?></th>
+								<th>&nbsp;<?php echo $tr->translate("QTY_ON_HAND");?></th>
+							</tr>
+					 <?php $num=1; foreach ($get_purchase_item AS $index => $item_purchase):?>
+							<tr height="30" class='row-format<?php echo $num; $num=1-$num;?>'>
+								<td align="center">&nbsp;<?php echo $index+1?></td>
+								<td>&nbsp;<?php echo $item_purchase["order"]?></td>
+								<td>&nbsp;<?php echo $item_purchase["item_name"]?></td>
+								<td>&nbsp;<?php echo $item_purchase["item_code"]?></td>
+								<td>&nbsp;<?php echo $item_purchase["date_in"]?></td>
+								<!-- <td>&nbsp;<?php //echo $item_purchase["Brand"]?></td>
+								<td>&nbsp;<?php //echo $item_purchase["cate_name"]?></td> -->
+								<td>&nbsp;<?php echo $item_purchase["qty_order"]?></td>
+								<td>&nbsp;<?php echo $item_purchase["branch"]?></td>
+								<td>&nbsp;<?php echo $item_purchase["qty_location"]?></td>
+							</tr>
+							 
+					<?php endforeach; ?>
+						<tr height="30" class='row-format<?php echo $num; $num=1-$num;?>'>
+								<td colspan="4" align="right">&nbsp;<?php echo $tr->translate("REPORT_ON_DATE");?>&nbsp;&nbsp;</td>
+								<td colspan="6">&nbsp;&nbsp;<?php echo"  ". $this->start_date." To ".$this->end_date;?></td>
+						</tr>
+				</table>
+			</div>
+		<!-- </div>print content -->
+		<?php endif;?>
+		
+		
+		<?php $sales_item = $this->getsales_item;
+			if($sales_item!=""):
+			?>
+			<!-- <input type="button" value="" class="print" onClick="Clickheretoprint()" /> -->
+			<!-- <input type="button" value="" class="print" onClick="window.open('<?php echo $url_print;?>','mywindow','width=600,height=300,scrollbars=yes')">-->
+<!-- 			<div id="print_content"> -->
+				<div style="background:rgb(237, 247, 248); padding:10px 0px 15px 0px;">
+					
+						<table cellspacing="0" class="" border="1" width="96%" style="margin:30px 2%; font-size:12px;">
+							<thead style="font-size:14px;">
+								<tr style="background:#fff; padding:10px 5px; height:120px;">
+									<td colspan="10" style="padding-left:5px;"><br />
+										<div align="center"><h2><?php echo $tr->translate("REPORT_SALE_ORDER");?></h2></div>
+										<?php echo COM_ADD; ?><!-- <img src="<?php //echo BASE_URL;?>/images/logo.png" /> -->
+											<div style="float:right;padding-right:5px;">
+											<?php if(!empty($brach_name))
+											 	echo "<b>Branch Name : </b>".$brach_name["Name"];
+											else{
+												echo "<b>Branch Name : </b> All Branch ";
+											}?>
+										</div>
+										
+										&nbsp;&nbsp;
+										<div style="clear:both;float: right; font-size:14px;"><?php echo $tr->translate("REPORT_ON_DATE")."៖";?><?php echo"  ". $this->start_date." To ".$this->end_date;?></div>
+									</td>
+										
+							   </tr>
+					   		</thead>
+						
+							<tr height="35" class="height" style="background:#E4E4E4;">
+								<th><?php echo $tr->translate("NUM");?></th>
+								<th><?php echo $tr->translate("SALES_ORDER_NO");?></th>
+								<th><?php echo $tr->translate("ITEM_NAME");?></th>
+								<th><?php echo $tr->translate("ITEM_CODE");?></th>
+								<th width="10%"><?php echo $tr->translate("DATE_ORDER_CAP");?></th>
+								<!-- <th><?php //echo $tr->translate("BRANCH_NAME");?></th>
+								<th><?php //echo $tr->translate("CATEGORY");?></th> -->
+								<th><?php echo $tr->translate("QTY_SALES");?></th>
+								<th width="15%">&nbsp;<?php echo $tr->translate("LOCATION");?></th>
+								<th><?php echo $tr->translate("QTY_ON_HAND");?></th>
+							</tr>
+					 <?php $num=1; foreach ($sales_item AS $index => $item_sale):?>
+							<tr height="30" class='row-format<?php echo $num; $num=1-$num;?> font'>
+								<td align="center"><?php echo $index+1?></td>
+								<td>&nbsp;<?php echo $item_sale["order"]?></td>
+								<td>&nbsp;<?php echo $item_sale["item_name"]?></td>
+								<td>&nbsp;<?php echo $item_sale["item_code"]?></td>
+								<td>&nbsp;<?php echo $item_sale["date_order"]?></td>
+								<!-- <td>&nbsp;<?php //echo $item_sale["Brand"]?></td>
+								<td>&nbsp;<?php //echo $item_sale["cate_name"]?></td> -->
+								<td>&nbsp;<?php echo $item_sale["qty_order"]?></td>
+								<td>&nbsp;<?php echo $item_sale["branch"]?></td>
+								<td>&nbsp;<?php echo $item_sale["qty"]?></td>
+							</tr>
+					<?php endforeach; ?>
+						<tr height="35" class='row-format<?php echo $num; $num=1-$num;?>'>
+								<td align="right" colspan="4">&nbsp;<?php echo $tr->translate("REPORT_ON_DATE");?>&nbsp;&nbsp;</td>
+								<td colspan="6">&nbsp;&nbsp;<?php echo"  ". $this->start_date." To ".$this->end_date;?></td>
+						</tr>
+				</table>
+			</div>
+		<!--</div> print content -->
+		<?php endif;?>
+		
+		
+			<?php $get_transfer_item = $this->get_transfer_item;
+			if($get_transfer_item!=""):
+			?>
+			<!--  <input type="button" value="" class="print" onClick="Clickheretoprint()" />-->
+			<!-- <input type="button" value="" class="print" onClick="window.open('<?php echo $url_print;?>','mywindow','width=600,height=300,scrollbars=yes')">-->
+			<!--  <div id="print_content"  style="overflow:scroll; overflow-x:hidden; max-height:400px;">-->
+				<div style="background:rgb(237, 247, 248); padding:10px 0px 15px 0px;">
+					<table cellspacing="0" class="" border="1" width="96%" style="margin:30px 2%; font-size:12px;">
+						<thead style="font-size:14px;">
+								<tr style="background:#fff; padding:10px 5px; height:120px;">
+									<td colspan="10" style="padding-left:5px;"><br />
+										<div align="center"><h2><?php echo $tr->translate("REPORT_TRANSFER");?></h2></div>
+										<?php echo COM_ADD; ?><!-- <img src="<?php //echo BASE_URL;?>/images/logo.png" /> -->
+											<div style="float:right;padding-right:5px;">
+											<?php if(!empty($brach_name))
+											 	echo "<b>Branch Name : </b>".$brach_name["Name"];
+											else{
+												echo "<b>Branch Name : </b> All Branch ";
+											}?>
+										</div>
+										
+										&nbsp;&nbsp;
+										<div style="clear:both;float: right; font-size:14px;"><?php echo $tr->translate("REPORT_ON_DATE")."៖";?><?php echo"  ". $this->start_date." To ".$this->end_date;?></div>
+									</td>
+										
+							   </tr>
+					   	</thead>
+						
+							<tr height="35" class="height" style="background:#E4E4E4;">
+								<th><?php echo $tr->translate("NUM");?></th>
+								<th width="25%"><?php echo $tr->translate("ITEM_NAME");?></th>
+								<th><?php echo $tr->translate("ITEM_CODE");?></th>
+								<!-- <th><?php //echo $tr->translate("BRANCH_NAME");?></th> -->
+								<!--<th><?php //echo $tr->translate("CATEGORY");?></th> -->
+								<th width="12%"><?php echo $tr->translate("FROM_LOCATION");?></th>
+								<th width="18%"><?php echo $tr->translate("TO_LOCATION");?></th>
+								<th><?php echo $tr->translate("QTY_TRANSFER");?></th>
+								<th><?php echo $tr->translate("TRANSFER_DATE");?></th>
+								<th><?php echo $tr->translate("TRANSFER_BY");?></th>
+							</tr>
+					 <?php $num=1; foreach ($get_transfer_item AS $index => $item):?>
+							<tr height="30" class='row-format<?php echo $num; $num=1-$num;?> font'>
+								<td align="center"><?php echo $index+1?></td>
+								<td>&nbsp;<?php echo $item["item_name"]?></td>
+								<td>&nbsp;<?php echo $item["item_code"]?></td>
+								<!-- <td>&nbsp;<?php //echo $item["Brand"]?></td> -->
+								<!-- <td>&nbsp;<?php //echo $item["cate_name"]?></td> -->
+								<td>&nbsp;<?php echo $item["From_location"]?></td>
+								<td>&nbsp;<?php echo $item["to_location"]?></td>
+								<td>&nbsp;<?php echo $item["qty"]?></td>
+								<td width="10%">&nbsp;<?php echo $item["transfer_date"]?></td>
+								<td>&nbsp;<?php echo $item["title"].". ".$item["user_name"]?></td>
+							</tr>
+					<?php endforeach; ?>
+						<tr height="35" class='row-format<?php echo $num; $num=1-$num;?>'>
+								<td align="right" colspan="3">&nbsp;<?php echo $tr->translate("REPORT_ON_DATE");?>&nbsp;&nbsp;</td>
+								<td colspan="6">&nbsp;&nbsp;<?php echo"  ". $this->start_date." To ".$this->end_date;?></td>
+						</tr>
+				</table>
+			</div>
+		
+		<?php endif;?>
+		
+		
+		<?php $get_product_qty = $this->get_product_qty;
+			if($get_product_qty!=""):
+			?>
+			<!--  <input type="button" value="" class="print" onClick="Clickheretoprint()" />-->
+			<!-- <input type="button" value="" class="print" onClick="window.open('<?php echo $url_print;?>','mywindow','width=600,height=300,scrollbars=yes')">-->
+			<!--  <div id="print_content"  style="overflow:scroll; overflow-x:hidden; max-height:400px;">-->
+				<div style="background:rgb(237, 247, 248); padding:10px 0px 15px 0px;">
+					<table cellspacing="0" class="" border="1" width="96%" style="margin:30px 2%; font-size:13px;">
+						<thead style="font-size:14px;">
+								<tr style="background:#fff; padding:10px 5px; height:120px;">
+									<td colspan="10" style="padding-left:5px;"><br />
+										<div align="center"><h2><?php echo $tr->translate("REPORT_PRODUCT");?></h2></div>
+										<?php echo COM_ADD; ?><!-- <img src="<?php //echo BASE_URL;?>/images/logo.png" /> -->
+											<div style="float:right;padding-right:5px;">
+											<?php if(!empty($brach_name))
+											 	echo "<b>Branch Name : </b>".$brach_name["Name"];
+											else{
+												echo "<b>Branch Name : </b> All Branch ";
+											}?>
+										</div>
+										
+										&nbsp;&nbsp;
+										<div style="clear:both;float: right; font-size:14px;"><?php echo $tr->translate("REPORT_ON_DATE")."៖";?><?php echo"  ". $this->start_date." To ".$this->end_date;?></div>
+									</td>
+										
+							   </tr>
+					   	</thead>
+						
+							<tr height="35" class="height" style="background:#E4E4E4;">
+								<th><?php echo $tr->translate("NUM");?></th>
+								<th width="25%"><?php echo $tr->translate("ITEM_NAME");?></th>
+								<th><?php echo $tr->translate("ITEM_CODE");?></th>
+								<th width="18%"><?php echo $tr->translate("LOCATION");?></th>								
+								<th><?php echo $tr->translate("QTY_HAND");?></th>
+								<th><?php echo $tr->translate("QTY_ON_AVALIABLE");?></th>
+								<th><?php echo $tr->translate("QTY_ON_ORDER");?></th>
+								<th><?php echo $tr->translate("QTY_ON_SOLD");?></th>
+								<!-- <th><?php //echo $tr->translate("CATEGORY");?></th> -->
+							</tr>
+					 <?php $num=1; foreach ($get_product_qty AS $index => $product):?>
+							<tr height="30" class='row-format<?php echo $num; $num=1-$num;?> font'>
+								<td align="center"><?php echo $index+1?></td>
+								<td>&nbsp;<?php echo $product["item_name"]?></td>
+								<td>&nbsp;<?php echo $product["item_code"]?></td>
+								<td>&nbsp;<?php echo $product["location"]?></td>
+								<td>&nbsp;<?php echo $product["qty"]?></td>
+								<td>&nbsp;<?php echo $product["qty_avaliable"]?></td>
+								<td>&nbsp;<?php echo $product["qty_onorder"]?></td>
+								<td>&nbsp;<?php echo $product["qty_onsold"]?></td>
+								<!-- <td width="10%">&nbsp;<?php //echo $product["category"]?></td> -->
+							</tr>
+					<?php endforeach; ?>
+						<tr height="35" class='row-format<?php echo $num; $num=1-$num;?>'>
+								<td align="right" colspan="3">&nbsp;<?php echo $tr->translate("REPORT_ON_DATE");?>&nbsp;&nbsp;</td>
+								<td colspan="6">&nbsp;&nbsp;<?php echo new Zend_Date();?></td>
+						</tr>
+				</table>
+			</div>
+		
+		<?php endif;?>
+			</div> <!-- print content -->
+		</div>
+	</div>
+</div>
+<script>
+	$("#item").chosen();
+	$("#LocationId").chosen();
+	$("#branch_id").chosen();
+	$("#category_id").chosen();
+	//alert($('#LocationId').val());
+	
+	$('#report').attr('hidden', 'hidden');
+	var report_type = $('#report_type').val();
+	if(report_type==6){
+		$('#report').removeAttr('hidden');
+	}else{
+		$('#report').attr('hidden', 'hidden');
+	}
+	function report(){
+		var report_type = $('#report_type').val();
+		if(report_type==6){
+			$('#report').removeAttr('hidden');
+		}else{
+			$('#report').attr('hidden', 'hidden');
+		}
+	}
+	
+	<?php $url_item_brand =  $this->url(array('module'=>'report','controller'=>'index','action'=>'get-item-by-brand')); ?>
+// 	function getProductByBrand(){
+// 		location_id=$("#LocationId").val();
+// 		branch_id = $('#branch_id').val();
+// 		//alert(item_id);
+// 			$.ajax({
+//				url:"<?php //echo $url_item_brand;?>",
+// 				type:"post",
+// 				data:{'branch_id':branch_id,'location_id':location_id},
+// 				success: function(data){
+// 					items = $.parseJSON(data);
+// 					alert(items);
+// 					alert(items.length);
+// 					 $('#item').empty();
+// 					 $('#item').val('').trigger("liszt:updated");
+// 					 $('#item').append($("<option></option>").attr("value","").text("please select"));
+// 					 for (var index = 1 ; index <= items.length; index++) {
+						
+// 							$('#item').append($("<option></option>").attr("value",items[index-1]['pro_id']).text(items[index-1]['item_code'] + items[index-1]['item_name'])); 
+// 							$("select#item").find("option#items[index-1]['pro_id']").attr("selected", true);
+// 					 }
+// 					$('#item').val('').trigger("liszt:updated");
+// 				},
+// 				error:function(){
+// 				}
+// 			});
+// 		}
+
+	<?php $url_item_filter =  $this->url(array('module'=>'report','controller'=>'index','action'=>'get-item-filter')); ?>
+	function getProductFilter(){
+		var location_id=$("#LocationId").val();
+		var branch_id = $('#branch_id').val();
+		var category_id = $('#category_id').val();
+			$.ajax({
+				url:"<?php echo $url_item_filter;?>",
+				type:"post",
+				data:{'category_id':category_id,'branch_id':branch_id,'location_id':location_id},
+				success: function(data){
+					items = $.parseJSON(data);
+					alert(items);
+					alert(items.length);
+					if(items!=null){
+						$('#item').empty();
+						 $('#item').val('').trigger("liszt:updated");
+						 $('#item').append($("<option></option>").attr("value","").text("Please Select Item"));
+						 for (var index = 1 ; index <= items.length; index++) {
+								$('#item').append($("<option></option>").attr("value",items[index-1]['pro_id']).text(items[index-1]['item_code'] + items[index-1]['item_name'])); 
+								$("select#item").find("option#items[index-1]['pro_id']").attr("selected", true);
+						 }               
+						$('#item').val('').trigger("liszt:updated");
+					}else{
+						 $('#item').empty();
+						 $('#item').val('').trigger("liszt:updated");
+ 						 $('#item').append($("<option></option>").attr("value","").text("No Result!"));
+ 						 $('#item').val('').trigger("liszt:updated");
+					}
+				},
+				error:function(){
+				}
+			});
+		}
+	
+	<?php $url_item_location =  $this->url(array('module'=>'report','controller'=>'index','action'=>'get-item')); ?>
+// 	function getProductByLocation(){
+// 		location_id=$("#LocationId").val();
+// 		branch_id = $('#branch_id').val();
+// 		category_id = $('#category_id').val();
+// 		//alert(item_id);
+// 			$.ajax({
+//				url:"<?php //echo $url_item_location;?>",
+// 				type:"post",
+// 				data:{'location_id':location_id,'category_id':category_id,'branch_id':branch_id},
+// 				success: function(data){
+// 					items = $.parseJSON(data);
+// 					alert(items);
+// 					 $('#item').empty();
+// 					 $('#item').val('').trigger("liszt:updated");
+// 					 $('#item').append($("<option></option>").attr("value","").text("please select"));
+// 					 for (var index = 1 ; index <= items.length; index++) {
+// 							$('#item').append($("<option></option>").attr("value",items[index-1]['pro_id']).text(items[index-1]['item_code'] + items[index-1]['item_name']));
+// 							$("select#item").find("option#items[index-1]['pro_id']").attr("selected", true);  
+// 					 }
+// 					// $("select#item").find("option#items[index-1]['pro_id']").attr("selected", true); 
+// 					$('#item').val('').trigger("liszt:updated");
+// 				},
+// 				error:function(){
+// 				}
+// 			});
+// 		}
+	
+</script>

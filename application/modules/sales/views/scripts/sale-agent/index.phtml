@@ -1,0 +1,62 @@
+<?php 
+	$url_new = $this->url(array('module'=>'sales','controller'=>'sale-agent','action'=>'add-sale-agent',
+	));
+	$url_delete = $this->url(array('module'=>'sales','controller'=>'sale-agent','action'=>'delete-sale-agent',));
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$formFilter = $this->formFilter;
+?>
+<title><?php echo $tr->translate("MENU_SALES_SALE_AGENT_INDEX");?></title>
+<div class="right" style="padding:10px; width: 97%">
+	<div class="wrapper">
+		<table class="table" style="width: 100%;">
+			<tr>
+				<td>
+					<div class="select" style="width: 100%;">
+					<form method="post" action="<?php echo $formFilter->getAction(); ?>">
+						<fieldset>
+							<legend><?php echo $tr->translate("ADV_SEARCH");?></legend>
+						<table class="view-table shadow" >
+							<tr>
+								<td class="add-edit">
+									<table>
+										<tr>
+											<td><?php echo $tr->translate("AGENT_NAME")."/".$tr->translate("CON_NUM");?></td>
+											<td width="30%"><?php echo $formFilter->getElement('s_name');?></td>
+											<td><?php echo $tr->translate("LOCATION_NAME");?></td>
+											<td width="30%"><?php echo $formFilter->getElement('stock_location');?></td>
+										</tr>
+										<tr class="heigh">
+											<td colspan="3" ></td>
+											<td class="btn"><input type="submit" value="<?php echo $tr->translate("REFRESH"); ?>" /></td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+						</fieldset>
+					</form>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div class="btn" align="right">
+						<?php 
+							$formList = new Application_Form_Frmlist();
+							echo $formList->showAddBuntton($url_new);
+							//echo $formList->showDeleteBuntton($url_delete);
+						?>
+					</div>
+				</td>
+			</tr>
+		</table>
+		<div style="position: relative; clear: both;">
+			<div class="head_form">
+				<?php echo $tr->translate("MENU_SALES_SALE_AGENT_INDEX");?>
+			</div>
+			<div class="contain_form">
+				<?php echo $this->list; ?>
+		    </div>
+		</div>
+	</div>
+</div>

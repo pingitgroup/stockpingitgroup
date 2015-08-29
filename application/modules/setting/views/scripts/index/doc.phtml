@@ -1,0 +1,65 @@
+<?php 
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$form=$this->form;
+	$url_submit =  $this->url(array('module'=>'setting','controller'=>'index','action'=>'doc'));
+	$url_cancel =  $this->url(array('module'=>'setting','controller'=>'index','action'=>'index'));
+?>
+<title><?php echo $tr->translate("INVENTORY STOCK INFO");?></title>
+<div class="wrapper">    
+    <div class="right">
+    	<form id="orderFrm" action="<?php echo $url_submit; ?>" method="post" enctype="multipart/form-data">
+		<div class="style-form">
+			<div class="view-table" style="padding:20px;">
+				<div class="head_form">
+					<?php echo $tr->translate("INVENTORY_STOCK ");?>
+				</div>
+			   	<div class="contain_form">
+			   		<table>
+			   				<tr>
+			   					<th></th>
+			   					<th>Prefix</th>
+			   					<th>Next Number</th>
+			   					<th>Preview</th>
+			   				</tr>
+				                <tr>
+				                	<td><?php echo $tr->translate("SALES_ORDER_CAP");?></td>
+				                    <td><?php echo $form->getElement('prefix'); ?></td>   
+				                    <td><?php echo $form->getElement('next_number'); ?></td>   
+				                    <td><?php echo $form->getElement('preview'); ?></td>   
+				                </tr>
+				                <tr>
+				                	<td><?php echo $tr->translate("SALES_QUOTE");?></td>
+				                    <td><?php echo $form->getElement('prefix'); ?></td>   
+				                    <td><?php echo $form->getElement('next_number'); ?></td>   
+				                    <td><?php echo $form->getElement('preview'); ?></td>   
+				                </tr>
+				                  <tr>
+				                	<td><?php echo $tr->translate("PURCHASING");?></td>
+				                    <td><?php echo $form->getElement('prefix'); ?></td>   
+				                    <td><?php echo $form->getElement('next_number'); ?></td>   
+				                    <td><?php echo $form->getElement('preview'); ?></td>   
+				                </tr>
+				                  <tr>
+				                	<td><?php echo $tr->translate("COUNT_SHEET");?></td>
+				                    <td><?php echo $form->getElement('prefix'); ?></td>   
+				                    <td><?php echo $form->getElement('next_number'); ?></td>   
+				                    <td><?php echo $form->getElement('preview'); ?></td>   
+				                </tr>
+				                  <tr>
+				                	<td><?php echo $tr->translate("WORK_ORDER");?></td>
+				                    <td><?php echo $form->getElement('prefix'); ?></td>   
+				                    <td><?php echo $form->getElement('next_number'); ?></td>   
+				                    <td><?php echo $form->getElement('preview'); ?></td>   
+				                </tr>
+				                
+				                
+				    </table>
+			   	</div><!-- end of .contain_table -->
+				        
+			</div>
+		</div>   
+				
+    	</form>
+    </div><!-- end right -->
+</div><!-- end wrapper -->
+ 
