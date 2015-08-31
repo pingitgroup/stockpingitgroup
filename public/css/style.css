@@ -512,7 +512,7 @@ td.input-answer input{
 
 td.input-train input,select{
     border: 1px solid #BDB597;
-    color: #333333;
+    color: #333333 !important;
     height: 30px;
     margin-top: 5px;
     overflow: auto;

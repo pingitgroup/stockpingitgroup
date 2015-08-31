@@ -17,33 +17,22 @@
 
 </style>	
 <div class="header">
-		<div class="cover-top">
-		   <div class="sub-header">
-		        <div class="main">
-		   			<div id="nav">
-					          <ul>
-					              <li><span tabindex="1" class="file"></span></li>
-					              <img class="close" src="<?php echo BASE_URL; ?>/images/spacer.gif" alt="" />
-					           </ul>
-				    </div>     	
-		        </div>
-		        <div class="prev-top"></div>
-		        <div class="next-top"></div>
-		         <div class="tool-pro-title">
+		<div class="container-fluid" >
+		   		<div class="col-md-4" style="float: left;">
+		   		  <a href="<?php echo $this->baseUrl();?>/default/index/dashboad">
+		   			<i class="icon-home" style="font-size: 25px;"> </i>
+		   		  </a>
 		         		<?php 
 		         			$title = $request->getModuleName() . "_"
 									 . $request->getControllerName() ."_"
 									 . $request->getActionName();
 							$title = "MENU_" . strtoupper(str_replace("-", "_", $title));
 		         		?>
-		            	<h3><?php echo $tr->translate($title);?></h3>
-		         </div>
-		         <a href="#" target="_blank">
-			         <div class='new-tab'>	
-			         </div>
-		          </a>
-		          <div class="blog-user">
-			            <div class="my-user"><?php echo $tr->translate('MENU_USERACCESS');?>
+		          <h2><?php //echo $tr->translate($title);?></h2>
+		          </div>
+		          <div class="col-md-8" >
+			            <div class="header_user" style="float: right; margin-top: 5px;">
+			            <i class="icon-user" style="font-size: 18px; color: #000;"> </i> <?php echo $tr->translate('MENU_USERACCESS');?>
 			            <a class="user_id" href="<?php echo $this->url(array('module'=>'rsvAcl','controller'=>'user','action'=>'change-password', 'id'=>$session_user->user_id));?>">
 								<?php echo ucwords(strtolower($session_user->fullname));?>
 								
@@ -69,10 +58,9 @@
 						<?php endif;?>
 						
 						
-							
+						<div style="clear: both;"></div>	
 			           	</div>
 		           </div>
-		   </div><!--end of sub header-->
-		    <div class="foot-header-pro"></div>
+		      <div style="clear: both;"></div>
 	    </div>
 </div><!--end of header-->
