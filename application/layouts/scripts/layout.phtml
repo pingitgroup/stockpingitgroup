@@ -83,10 +83,6 @@
 		<script type="text/javascript" src="<?php echo BASE_URL;?>/test/chosen.jquery.js"></script>
 		<link rel="stylesheet" media="screen" href="<?php echo BASE_URL;?>/css/chosen.css" type="text/css" />
 
-		<link rel="stylesheet" media="screen" href="<?php echo BASE_URL;?>/bootstrap/css/bootstrap-theme.css" type="text/css" />
-		<link rel="stylesheet" media="screen" href="<?php echo BASE_URL;?>/bootstrap/css/bootstrap-theme.min.css" type="text/css" />
-		<link rel="stylesheet" media="screen" href="<?php echo BASE_URL;?>/bootstrap/css/bootstrap.css" type="text/css" />
-		<link rel="stylesheet" media="screen" href="<?php echo BASE_URL;?>/bootstrap/css/bootstrap.min.css" type="text/css" />
 		<!-- for select auto complete -->
 		<!-- end of auto complete -->
 		 <script type="text/javascript">
@@ -167,17 +163,11 @@ if($session_lang->lang_id==1){?>
 			<?php endif;?>	
 			<?php //echo $this->render("left-toolbar.phtml")?>	
 		<div class="content">
-			<div class="container-fluid">
-				<div class="col-md-2">
-				    <div class="row">
-					<?php echo $this->render('left-toolbar.phtml')?>
-					</div>
-				</div>
-				<div class='col-md-10'>
-				  <div class="row">
-					<?php echo $this->layout()->content;?>
-				  </div>
-				</div>
+			<div style="float: left; width: 20%;">
+				<?php echo $this->render('left-toolbar.phtml')?>
+			</div>
+			<div style="float:right; width:80%;">
+				<?php echo $this->layout()->content;?>
 			</div>
 	    </div>
 		<!-- <div class="content-bottom" style="clear:both;">

@@ -27,12 +27,6 @@ section,
 summary {
   display: block;
 }
-.header{ 
-	height: 40px;
-	background-color: #428bca;
-    border-color: #357ebd;
-    margin-bottom: 5px;
-}
 audio,
 canvas,
 progress,
@@ -1229,8 +1223,8 @@ h2,
 .h2,
 h3,
 .h3 {
-  margin-top: 0px;
-  margin-bottom: 0px;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 h1 small,
 .h1 small,
